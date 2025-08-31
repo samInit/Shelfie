@@ -79,7 +79,7 @@ const Sidebar = () => {
           isSidebarCollapsed ? "px-5" : "px-8"
         }`}
       >
-        <div>LOGO</div>
+        
         <h1
           className={`${
             isSidebarCollapsed ? "hidden" : "block"
