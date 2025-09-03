@@ -44,9 +44,6 @@ const Navbar = () => {
           </div>
 
           <hr className="w-0 h-7 border border-solid border-l border-gray-300 mx-3" />
-          <div className="flex items-center gap-3 cursor-pointer">
-            <div className="w-9 h-9">image</div>
-          </div>
         </div>
         <Link href="/settings">
           <Settings className="cursor-pointer text-gray-500" size={24} />
