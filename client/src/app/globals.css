@@ -15,18 +15,33 @@ body,
   height: 100%;
   width: 100%;
   @apply text-sm;
-  @apply bg-gray-500;
+  @apply bg-gray-50;
+  @apply dark:bg-gray-900;
   @apply text-gray-900;
+  @apply dark:text-gray-100;
 }
 
-@media (min-width: 768px) {
-  .custom-grid-rows {
-    grid-template-rows: repeat(8, 20vh);
-  }
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-@media (min-width: 1280px) {
-  .custom-grid-rows {
-    grid-template-rows: repeat(8, 7.5vh);
-  }
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-lg;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: background-color, border-color, color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
 }

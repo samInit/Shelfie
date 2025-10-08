@@ -1,5 +1,5 @@
 import { useGetDashboardMetricsQuery } from "@/state/api";
-import { TrendingUp } from "lucide-react";
+import { TrendingUp, BarChart3 } from "lucide-react";
 import React, { useState } from "react";
 import {
   Bar,
@@ -14,7 +14,6 @@ import {
 const CardSalesSummary = () => {
   const { data, isLoading, isError } = useGetDashboardMetricsQuery();
   const salesData = data?.salesSummary || [];
-
   const [timeframe, setTimeframe] = useState("weekly");
 
   const totalValueSum =
@@ -38,78 +37,100 @@ const CardSalesSummary = () => {
     : "N/A";
 
   if (isError) {
-    return <div className="m-5">Failed to fetch data</div>;
+    return (
+      <div className="row-span-3 xl:row-span-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 flex items-center justify-center">
+        <p className="text-red-600 dark:text-red-400">Failed to fetch data</p>
+      </div>
+    );
   }
 
   return (
-    <div className="row-span-3 xl:row-span-6 bg-white shadow-md rounded-2xl flex flex-col justify-between">
+    <div className="row-span-3 xl:row-span-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex flex-col">
       {isLoading ? (
-        <div className="m-5">Loading...</div>
+        <div className="p-6">
+          <div className="animate-pulse space-y-4">
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
+            <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          </div>
+        </div>
       ) : (
         <>
           {/* HEADER */}
-          <div>
-            <h2 className="text-lg font-semibold mb-2 px-7 pt-5">
-              Sales Summary
-            </h2>
-            <hr />
+          <div className="p-5 pb-3">
+            <div className="flex items-center space-x-2 mb-2">
+              <BarChart3 className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                Sales Summary
+              </h2>
+            </div>
+            <hr className="border-gray-200 dark:border-gray-700" />
           </div>
 
           {/* BODY */}
-          <div>
+          <div className="flex-1">
             {/* BODY HEADER */}
-            <div className="flex justify-between items-center mb-6 px-7 mt-5">
-              <div className="text-lg font-medium">
-                <p className="text-xs text-gray-400">Value</p>
-                <span className="text-2xl font-extrabold">
-                  $
-                  {(totalValueSum / 1000000).toLocaleString("en", {
-                    maximumFractionDigits: 2,
-                  })}
-                  m
-                </span>
-                <span className="text-green-500 text-sm ml-2">
-                  <TrendingUp className="inline w-4 h-4 mr-1" />
-                  {averageChangePercentage.toFixed(2)}%
-                </span>
+            <div className="flex justify-between items-center px-5 mb-4">
+              <div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                  Total Value
+                </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                    $
+                    {(totalValueSum / 1000000).toLocaleString("en", {
+                      maximumFractionDigits: 2,
+                    })}
+                    m
+                  </span>
+                  <span className="flex items-center text-green-600 dark:text-green-400 text-sm font-medium">
+                    <TrendingUp className="w-4 h-4 mr-1" />
+                    {averageChangePercentage.toFixed(2)}%
+                  </span>
+                </div>
               </div>
               <select
-                className="shadow-sm border border-gray-300 bg-white p-2 rounded"
+                className="px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600"
                 value={timeframe}
-                onChange={(e) => {
-                  setTimeframe(e.target.value);
-                }}
+                onChange={(e) => setTimeframe(e.target.value)}
               >
                 <option value="daily">Daily</option>
                 <option value="weekly">Weekly</option>
                 <option value="monthly">Monthly</option>
               </select>
             </div>
+
             {/* CHART */}
-            <ResponsiveContainer width="100%" height={350} className="px-7">
+            <ResponsiveContainer width="100%" height={350} className="px-3">
               <BarChart
                 data={salesData}
-                margin={{ top: 0, right: 0, left: -25, bottom: 0 }}
+                margin={{ top: 0, right: 10, left: -10, bottom: 0 }}
               >
-                <CartesianGrid strokeDasharray="" vertical={false} />
+                <CartesianGrid 
+                  strokeDasharray="3 3" 
+                  vertical={false}
+                  stroke="#e5e7eb"
+                  className="dark:stroke-gray-700"
+                />
                 <XAxis
                   dataKey="date"
                   tickFormatter={(value) => {
                     const date = new Date(value);
                     return `${date.getMonth() + 1}/${date.getDate()}`;
                   }}
+                  tick={{ fontSize: 12, fill: "#6b7280" }}
+                  tickLine={false}
+                  axisLine={false}
                 />
                 <YAxis
-                  tickFormatter={(value) => {
-                    return `$${(value / 1000000).toFixed(0)}m`;
-                  }}
-                  tick={{ fontSize: 12, dx: -1 }}
+                  tickFormatter={(value) => `$${(value / 1000000).toFixed(0)}m`}
+                  tick={{ fontSize: 12, fill: "#6b7280" }}
                   tickLine={false}
                   axisLine={false}
                 />
                 <Tooltip
                   formatter={(value: number) => [
                     `$${value.toLocaleString("en")}`,
+                    "Total Value",
                   ]}
                   labelFormatter={(label) => {
                     const date = new Date(label);
@@ -119,26 +140,35 @@ const CardSalesSummary = () => {
                       day: "numeric",
                     });
                   }}
+                  contentStyle={{
+                    backgroundColor: "#fff",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: "8px",
+                  }}
                 />
                 <Bar
                   dataKey="totalValue"
-                  fill="#3182ce"
-                  barSize={10}
-                  radius={[10, 10, 0, 0]}
+                  fill="#3b82f6"
+                  barSize={16}
+                  radius={[8, 8, 0, 0]}
                 />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
           {/* FOOTER */}
-          <div>
-            <hr />
-            <div className="flex justify-between items-center mt-6 text-sm px-7 mb-4">
-              <p>{salesData.length || 0} days</p>
-              <p className="text-sm">
-                Highest Sales Date:{" "}
-                <span className="font-bold">{highestValueDate}</span>
-              </p>
+          <div className="p-5 pt-0">
+            <hr className="border-gray-200 dark:border-gray-700 mb-4" />
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-gray-600 dark:text-gray-400">
+                {salesData.length || 0} days
+              </span>
+              <span className="text-gray-600 dark:text-gray-400">
+                Highest:{" "}
+                <span className="font-semibold text-gray-900 dark:text-gray-100">
+                  {highestValueDate}
+                </span>
+              </span>
             </div>
           </div>
         </>

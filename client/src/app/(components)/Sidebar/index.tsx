@@ -2,16 +2,16 @@
 
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
-import React from 'react'
+import React from "react";
 import {
   Archive,
   CircleDollarSign,
   Clipboard,
   Layout,
   LucideIcon,
-  Menu,
   SlidersHorizontal,
   User,
+  Package,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -36,23 +36,18 @@ const SidebarLink = ({
   return (
     <Link href={href}>
       <div
-        className={`cursor-pointer flex items-center ${
-          isCollapsed ? "justify-center py-4" : "justify-start px-8 py-4"
-        }
-        hover:text-blue-500 hover:bg-blue-100 gap-3 transition-colors ${
-          isActive ? "bg-blue-200 text-white" : ""
-        }
-      }`}
+        className={`flex items-center cursor-pointer rounded-lg transition-all duration-200 ${
+          isCollapsed ? "justify-center py-3" : "justify-start px-4 py-3"
+        } ${
+          isActive
+            ? "bg-blue-600 text-white shadow-lg"
+            : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+        }`}
       >
-        <Icon className="w-6 h-6 !text-gray-700" />
-
-        <span
-          className={`${
-            isCollapsed ? "hidden" : "block"
-          } font-medium text-gray-700`}
-        >
-          {label}
-        </span>
+        <Icon className={`w-5 h-5 ${!isCollapsed && "mr-3"}`} />
+        {!isCollapsed && (
+          <span className="font-medium text-sm">{label}</span>
+        )}
       </div>
     </Link>
   );
@@ -64,80 +59,61 @@ const Sidebar = () => {
     (state) => state.global.isSidebarCollapsed
   );
 
-  const toggleSidebar = () => {
-    dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
-  };
+  const sidebarLinks = [
+    { href: "/dashboard", icon: Layout, label: "Dashboard" },
+    { href: "/inventory", icon: Archive, label: "Inventory" },
+    { href: "/products", icon: Package, label: "Products" },
+    { href: "/users", icon: User, label: "Users" },
+    { href: "/settings", icon: SlidersHorizontal, label: "Settings" },
+    { href: "/expenses", icon: CircleDollarSign, label: "Expenses" },
+  ];
 
-  const sidebarClassNames = `fixed flex flex-col ${
-    isSidebarCollapsed ? "w-0 md:w-16" : "w-72 md:w-64"
-  } bg-white transition-all duration-300 overflow-hidden h-full shadow-md z-40`;
   return (
-    <div className={sidebarClassNames}>
-        {/* TOP LOGO */}
+    <div
+      className={`fixed top-0 left-0 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-lg transition-all duration-300 z-50 ${
+        isSidebarCollapsed ? "w-20" : "w-64"
+      }`}
+    >
+      {/* Logo Section */}
       <div
-        className={`flex gap-3 justify-between md:justify-normal items-center pt-8 ${
-          isSidebarCollapsed ? "px-5" : "px-8"
+        className={`flex items-center ${
+          isSidebarCollapsed ? "justify-center" : "justify-start px-6"
+        } h-16 border-b border-gray-200 dark:border-gray-700`}
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-lg">S</span>
+          </div>
+          {!isSidebarCollapsed && (
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+              SHELFIE
+            </h1>
+          )}
+        </div>
+      </div>
+
+      {/* Navigation Links */}
+      <nav className={`flex flex-col gap-2 mt-6 ${isSidebarCollapsed ? "px-2" : "px-4"}`}>
+        {sidebarLinks.map((link) => (
+          <SidebarLink
+            key={link.href}
+            href={link.href}
+            icon={link.icon}
+            label={link.label}
+            isCollapsed={isSidebarCollapsed}
+          />
+        ))}
+      </nav>
+
+      {/* Footer */}
+      <div
+        className={`absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700 ${
+          isSidebarCollapsed ? "text-center" : ""
         }`}
       >
-        
-        <h1
-          className={`${
-            isSidebarCollapsed ? "hidden" : "block"
-          } font-extrabold text-2xl`}
-        >
-          SHELFIE
-        </h1>
-
-        <button
-          className="md:hidden px-3 py-3 bg-gray-100 rounded-full hover:bg-blue-100"
-          onClick={()=> {}}
-        >
-          <Menu className="w-4 h-4" />
-        </button>
-      </div>
-      {/* LINKS */}
-      <div className="flex-grow mt-8">
-        <SidebarLink
-          href="/dashboard"
-          icon={Layout}
-          label="Dashboard"
-          isCollapsed={isSidebarCollapsed}
-        />
-        <SidebarLink
-          href="/inventory"
-          icon={Archive}
-          label="Inventory"
-          isCollapsed={isSidebarCollapsed}
-        />
-        <SidebarLink
-          href="/products"
-          icon={Clipboard}
-          label="Products"
-          isCollapsed={isSidebarCollapsed}
-        />
-        <SidebarLink
-          href="/users"
-          icon={User}
-          label="Users"
-          isCollapsed={isSidebarCollapsed}
-        />
-        <SidebarLink
-          href="/settings"
-          icon={SlidersHorizontal}
-          label="Settings"
-          isCollapsed={isSidebarCollapsed}
-        />
-        <SidebarLink
-          href="/expenses"
-          icon={CircleDollarSign}
-          label="Expenses"
-          isCollapsed={isSidebarCollapsed}
-        />
-      </div>
-
-      {/* FOOTER */}
-      <div>
-        <p className="text-center text-xs text-gray-500">&copy; 2025 SHELFIE</p>
+        <p className={`text-xs text-gray-500 dark:text-gray-400 ${isSidebarCollapsed ? "hidden" : ""}`}>
+          © 2025 SHELFIE
+        </p>
       </div>
     </div>
   );

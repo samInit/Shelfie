@@ -27,47 +27,60 @@ const StatCard = ({
   };
 
   const getChangeColor = (value: number) =>
-    value >= 0 ? "text-green-500" : "text-red-500";
+    value >= 0 
+      ? "text-green-600 dark:text-green-400" 
+      : "text-red-600 dark:text-red-400";
 
   return (
-    <div className="md:row-span-1 xl:row-span-2 bg-white col-span-1 shadow-md rounded-2xl flex flex-col justify-between">
+    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
       {/* HEADER */}
-      <div>
-        <div className="flex justify-between items-center mb-2 px-5 pt-4">
-          <h2 className="font-semibold text-lg text-gray-700">{title}</h2>
-          <span className="text-xs text-gray-400">{dateRange}</span>
+      <div className="p-5 pb-3">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="font-semibold text-lg text-gray-900 dark:text-gray-100">
+            {title}
+          </h2>
+          <span className="text-xs text-gray-500 dark:text-gray-400">
+            {dateRange}
+          </span>
         </div>
-        <hr />
+        <hr className="border-gray-200 dark:border-gray-700" />
       </div>
 
       {/* BODY */}
-      <div className="flex mb-6 items-center justify-around gap-4 px-5">
-        <div className="rounded-full p-5 bg-blue-50 border-sky-300 border-[1px]">
+      <div className="flex items-center gap-6 px-5 pb-5">
+        <div className="rounded-full p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
           {primaryIcon}
         </div>
-        <div className="flex-1">
+        <div className="flex-1 space-y-3">
           {details.map((detail, index) => (
             <React.Fragment key={index}>
-              <div className="flex items-center justify-between my-4">
-                <span className="text-gray-500">{detail.title}</span>
-                <span className="font-bold text-gray-800">{detail.amount}</span>
-                <div className="flex items-center">
-                  <detail.IconComponent
-                    className={`w-4 h-4 mr-1 ${getChangeColor(
-                      detail.changePercentage
-                    )}`}
-                  />
-
-                  <span
-                    className={`font-medium ${getChangeColor(
-                      detail.changePercentage
-                    )}`}
-                  >
-                    {formatPercentage(detail.changePercentage)}
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  {detail.title}
+                </span>
+                <div className="flex items-center gap-3">
+                  <span className="font-semibold text-gray-900 dark:text-gray-100">
+                    ${detail.amount}
                   </span>
+                  <div className="flex items-center">
+                    <detail.IconComponent
+                      className={`w-4 h-4 mr-1 ${getChangeColor(
+                        detail.changePercentage
+                      )}`}
+                    />
+                    <span
+                      className={`font-medium text-sm ${getChangeColor(
+                        detail.changePercentage
+                      )}`}
+                    >
+                      {formatPercentage(detail.changePercentage)}
+                    </span>
+                  </div>
                 </div>
               </div>
-              {index < details.length - 1 && <hr />}
+              {index < details.length - 1 && (
+                <hr className="border-gray-200 dark:border-gray-700" />
+              )}
             </React.Fragment>
           ))}
         </div>

@@ -2,20 +2,18 @@ import {
   ExpenseByCategorySummary,
   useGetDashboardMetricsQuery,
 } from "@/state/api";
-import { TrendingUp } from "lucide-react";
+import { TrendingUp, PieChart as PieChartIcon } from "lucide-react";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 type ExpenseSums = {
   [category: string]: number;
 };
 
-const colors = ["#00C49F", "#0088FE", "#FFBB28"];
+const colors = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
 
 const CardExpenseSummary = () => {
   const { data: dashboardMetrics, isLoading } = useGetDashboardMetricsQuery();
-
   const expenseSummary = dashboardMetrics?.expenseSummary[0];
-
   const expenseByCategorySummary =
     dashboardMetrics?.expenseByCategorySummary || [];
 
@@ -44,29 +42,37 @@ const CardExpenseSummary = () => {
   const formattedTotalExpenses = totalExpenses.toFixed(2);
 
   return (
-    <div className="row-span-3 bg-white shadow-md rounded-2xl flex flex-col justify-between">
+    <div className="row-span-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex flex-col">
       {isLoading ? (
-        <div className="m-5">Loading...</div>
+        <div className="p-6">
+          <div className="animate-pulse space-y-4">
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
+            <div className="h-40 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          </div>
+        </div>
       ) : (
         <>
           {/* HEADER */}
-          <div>
-            <h2 className="text-lg font-semibold mb-2 px-7 pt-5">
-              Expense Summary
-            </h2>
-            <hr />
+          <div className="p-5 pb-3">
+            <div className="flex items-center space-x-2 mb-2">
+              <PieChartIcon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                Expense Summary
+              </h2>
+            </div>
+            <hr className="border-gray-200 dark:border-gray-700" />
           </div>
+
           {/* BODY */}
-          <div className="xl:flex justify-between pr-7">
+          <div className="flex-1 flex flex-col xl:flex-row items-center justify-between px-5 gap-4">
             {/* CHART */}
-            <div className="relative basis-3/5">
-              <ResponsiveContainer width="100%" height={140}>
+            <div className="relative flex-shrink-0">
+              <ResponsiveContainer width={160} height={160}>
                 <PieChart>
                   <Pie
                     data={expenseCategories}
                     innerRadius={50}
-                    outerRadius={60}
-                    fill="#8884d8"
+                    outerRadius={70}
                     dataKey="value"
                     nameKey="name"
                     cx="50%"
@@ -81,43 +87,45 @@ const CardExpenseSummary = () => {
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center basis-2/5">
-                <span className="font-bold text-xl">
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                <span className="font-bold text-xl text-gray-900 dark:text-gray-100">
                   ${formattedTotalExpenses}
                 </span>
               </div>
             </div>
+
             {/* LABELS */}
-            <ul className="flex flex-col justify-around items-center xl:items-start py-5 gap-3">
+            <ul className="flex flex-col justify-center gap-3 flex-1">
               {expenseCategories.map((entry, index) => (
                 <li
                   key={`legend-${index}`}
-                  className="flex items-center text-xs"
+                  className="flex items-center text-sm"
                 >
                   <span
-                    className="mr-2 w-3 h-3 rounded-full"
+                    className="mr-2 w-3 h-3 rounded-full flex-shrink-0"
                     style={{ backgroundColor: colors[index % colors.length] }}
                   ></span>
-                  {entry.name}
+                  <span className="text-gray-700 dark:text-gray-300 truncate">
+                    {entry.name}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
+
           {/* FOOTER */}
-          <div>
-            <hr />
+          <div className="p-5 pt-3">
+            <hr className="border-gray-200 dark:border-gray-700 mb-3" />
             {expenseSummary && (
-              <div className="mt-3 flex justify-between items-center px-7 mb-4">
-                <div className="pt-2">
-                  <p className="text-sm">
-                    Average:{" "}
-                    <span className="font-semibold">
-                      ${expenseSummary.totalExpenses.toFixed(2)}
-                    </span>
-                  </p>
-                </div>
-                <span className="flex items-center mt-2">
-                  <TrendingUp className="mr-2 text-green-500" />
+              <div className="flex justify-between items-center">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Average:{" "}
+                  <span className="font-semibold text-gray-900 dark:text-gray-100">
+                    ${expenseSummary.totalExpenses.toFixed(2)}
+                  </span>
+                </p>
+                <span className="flex items-center text-green-600 dark:text-green-400 text-sm font-medium">
+                  <TrendingUp className="w-4 h-4 mr-1" />
                   30%
                 </span>
               </div>

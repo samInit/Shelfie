@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { v4 } from "uuid";
-import Header from "@/app/(components)/Header";
+import { X, Package, DollarSign, Box, Star } from "lucide-react";
 
 type ProductFormData = {
   name: string;
@@ -34,7 +34,7 @@ const CreateProductModal = ({
       ...formData,
       [name]:
         name === "price" || name === "stockQuantity" || name === "rating"
-          ? parseFloat(value)
+          ? parseFloat(value) || 0
           : value,
     });
   };
@@ -42,90 +42,153 @@ const CreateProductModal = ({
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onCreate(formData);
+    setFormData({
+      productId: v4(),
+      name: "",
+      price: 0,
+      stockQuantity: 0,
+      rating: 0,
+    });
     onClose();
   };
 
   if (!isOpen) return null;
 
-  const labelCssStyles = "block text-sm font-medium text-gray-700";
-  const inputCssStyles =
-    "block w-full mb-2 p-2 border-gray-500 border-2 rounded-md";
-
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-20">
-      <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-        <Header name="Create New Product" />
-        <form onSubmit={handleSubmit} className="mt-5">
-          {/* PRODUCT NAME */}
-          <label htmlFor="productName" className={labelCssStyles}>
-            Product Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Name"
-            onChange={handleChange}
-            value={formData.name}
-            className={inputCssStyles}
-            required
-          />
-
-          {/* PRICE */}
-          <label htmlFor="productPrice" className={labelCssStyles}>
-            Price
-          </label>
-          <input
-            type="number"
-            name="price"
-            placeholder="Price"
-            onChange={handleChange}
-            value={formData.price}
-            className={inputCssStyles}
-            required
-          />
-
-          {/* STOCK QUANTITY */}
-          <label htmlFor="stockQuantity" className={labelCssStyles}>
-            Stock Quantity
-          </label>
-          <input
-            type="number"
-            name="stockQuantity"
-            placeholder="Stock Quantity"
-            onChange={handleChange}
-            value={formData.stockQuantity}
-            className={inputCssStyles}
-            required
-          />
-
-          {/* RATING */}
-          <label htmlFor="rating" className={labelCssStyles}>
-            Rating
-          </label>
-          <input
-            type="number"
-            name="rating"
-            placeholder="Rating"
-            onChange={handleChange}
-            value={formData.rating}
-            className={inputCssStyles}
-            required
-          />
-
-          {/* CREATE ACTIONS */}
-          <button
-            type="submit"
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-          >
-            Create
-          </button>
+    <div 
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="relative bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md border border-gray-200 dark:border-gray-700 animate-slide-in"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+              <Package className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+              Create New Product
+            </h2>
+          </div>
           <button
             onClick={onClose}
-            type="button"
-            className="ml-2 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
-            Cancel
+            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+          {/* Product Name */}
+          <div className="space-y-2">
+            <label 
+              htmlFor="productName" 
+              className="flex items-center space-x-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              <Package className="w-4 h-4" />
+              <span>Product Name</span>
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="productName"
+              placeholder="Enter product name"
+              onChange={handleChange}
+              value={formData.name}
+              className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
+              required
+            />
+          </div>
+
+          {/* Price */}
+          <div className="space-y-2">
+            <label 
+              htmlFor="productPrice" 
+              className="flex items-center space-x-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              <DollarSign className="w-4 h-4" />
+              <span>Price</span>
+            </label>
+            <input
+              type="number"
+              name="price"
+              id="productPrice"
+              placeholder="0.00"
+              step="0.01"
+              min="0"
+              onChange={handleChange}
+              value={formData.price}
+              className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
+              required
+            />
+          </div>
+
+          {/* Stock Quantity */}
+          <div className="space-y-2">
+            <label 
+              htmlFor="stockQuantity" 
+              className="flex items-center space-x-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              <Box className="w-4 h-4" />
+              <span>Stock Quantity</span>
+            </label>
+            <input
+              type="number"
+              name="stockQuantity"
+              id="stockQuantity"
+              placeholder="0"
+              min="0"
+              onChange={handleChange}
+              value={formData.stockQuantity}
+              className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
+              required
+            />
+          </div>
+
+          {/* Rating */}
+          <div className="space-y-2">
+            <label 
+              htmlFor="rating" 
+              className="flex items-center space-x-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              <Star className="w-4 h-4" />
+              <span>Rating (0-5)</span>
+            </label>
+            <input
+              type="number"
+              name="rating"
+              id="rating"
+              placeholder="0"
+              step="0.1"
+              min="0"
+              max="5"
+              onChange={handleChange}
+              value={formData.rating}
+              className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
+              required
+            />
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex space-x-3 pt-4">
+            <button
+              type="submit"
+              className="flex-1 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium py-2.5 px-4 rounded-lg transition-colors shadow-sm"
+            >
+              Create Product
+            </button>
+            <button
+              onClick={onClose}
+              type="button"
+              className="flex-1 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-2.5 px-4 rounded-lg transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
