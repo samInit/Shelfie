@@ -6,8 +6,11 @@ import DashboardWrapper from "./dashboardWrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SHELFIE",
-  description: "An inventory management application",
+  title: "SHELFIE - Inventory Management",
+  description: "Smart inventory management application",
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({

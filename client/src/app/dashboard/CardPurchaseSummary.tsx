@@ -17,12 +17,12 @@ const CardPurchaseSummary = () => {
   const lastDataPoint = purchaseData[purchaseData.length - 1] || null;
 
   return (
-    <div className="row-span-2 xl:row-span-3 col-span-1 md:col-span-2 xl:col-span-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex flex-col">
+    <div className="row-span-2 xl:row-span-3 col-span-1 md:col-span-2 xl:col-span-1 bg-gray-800 border border-gray-700 rounded-lg shadow-sm flex flex-col">
       {isLoading ? (
         <div className="p-6">
           <div className="animate-pulse space-y-4">
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
-            <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            <div className="h-4 bg-gray-700 rounded w-1/3"></div>
+            <div className="h-48 bg-gray-700 rounded"></div>
           </div>
         </div>
       ) : (
@@ -30,23 +30,23 @@ const CardPurchaseSummary = () => {
           {/* HEADER */}
           <div className="p-5 pb-3">
             <div className="flex items-center space-x-2 mb-2">
-              <ShoppingCart className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <ShoppingCart className="w-5 h-5 text-gray-400" />
+              <h2 className="text-lg font-semibold text-gray-100">
                 Purchase Summary
               </h2>
             </div>
-            <hr className="border-gray-200 dark:border-gray-700" />
+            <hr className="border-gray-700" />
           </div>
 
           {/* BODY */}
           <div className="flex-1 px-5">
             {/* BODY HEADER */}
             <div className="mb-4">
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+              <p className="text-xs text-gray-400 mb-1">
                 Total Purchased
               </p>
               <div className="flex items-center gap-3">
-                <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                <p className="text-2xl font-bold text-gray-100">
                   {lastDataPoint
                     ? numeral(lastDataPoint.totalPurchased).format("$0.00a")
                     : "$0"}
@@ -55,8 +55,8 @@ const CardPurchaseSummary = () => {
                   <div
                     className={`flex items-center text-sm font-medium ${
                       lastDataPoint.changePercentage! >= 0
-                        ? "text-green-600 dark:text-green-400"
-                        : "text-red-600 dark:text-red-400"
+                        ? "text-green-400"
+                        : "text-red-400"
                     }`}
                   >
                     {lastDataPoint.changePercentage! >= 0 ? (
@@ -107,9 +107,16 @@ const CardPurchaseSummary = () => {
                     });
                   }}
                   contentStyle={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #e5e7eb",
+                    backgroundColor: "#1f2937",
+                    border: "1px solid #374151",
                     borderRadius: "8px",
+                    color: "#f3f4f6"
+                  }}
+                  itemStyle={{
+                    color: "#f3f4f6"
+                  }}
+                  labelStyle={{
+                    color: "#f3f4f6"
                   }}
                 />
                 <Area

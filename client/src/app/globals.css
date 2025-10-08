@@ -14,34 +14,45 @@ body,
 .app {
   height: 100%;
   width: 100%;
-  @apply text-sm;
-  @apply bg-gray-50;
-  @apply dark:bg-gray-900;
-  @apply text-gray-900;
-  @apply dark:text-gray-100;
+  /* Force everything to dark defaults */
+  @apply text-sm bg-gray-900 text-gray-100;
 }
 
-/* Custom scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800;
+  @apply bg-gray-800;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded-lg;
+  @apply bg-gray-600 rounded-lg;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-gray-500;
+  @apply bg-gray-500;
 }
 
-/* Smooth transitions */
 * {
   transition-property: background-color, border-color, color;
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
+}
+.MuiDataGrid-columnHeaders {
+  background-color: rgb(17 24 39) !important;
+  border-bottom: 2px solid rgb(59 130 246) !important;
+}
+
+.MuiDataGrid-columnHeaderTitle {
+  color: white !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.MuiDataGrid-columnHeader {
+  background-color: rgb(17 24 39) !important;
+  padding: 16px !important;
 }

@@ -275,7 +275,15 @@ const Inventory = () => {
                   color: 'rgb(55 65 81)',
                   fontSize: '0.875rem',
                   fontWeight: 600,
-                },
+                },'& .MuiDataGrid-filler': {
+                    backgroundColor: 'rgb(17 24 39) !important',
+                  },
+                  '& .MuiDataGrid-scrollbarFiller': {
+                    backgroundColor: 'rgb(17 24 39) !important',
+                  },
+                  '& .MuiDataGrid-columnHeadersInner': {
+                    backgroundColor: 'rgb(17 24 39) !important',
+                  },
                 '& .MuiDataGrid-row:hover': {
                   backgroundColor: 'rgb(249 250 251)',
                 },

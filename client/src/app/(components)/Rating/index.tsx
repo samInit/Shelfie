@@ -14,7 +14,7 @@ const Rating = ({ rating }: RatingProps) => {
           className={`w-4 h-4 ${
             index <= rating
               ? "fill-yellow-400 text-yellow-400"
-              : "fill-gray-200 text-gray-200 dark:fill-gray-600 dark:text-gray-600"
+              : "fill-gray-200 text-gray-200  fill-gray-600  text-gray-600"
           }`}
         />
       ))}

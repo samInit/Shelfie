@@ -16,19 +16,19 @@ import StatCard from "./StatCard";
 
 const Dashboard = () => {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-900">
       <div className="px-6 md:px-12 lg:px-16 xl:px-24 py-8 max-w-[2000px] mx-auto">
         {/* Header Section */}
         <div className="mb-8">
           <div className="flex items-center space-x-3 mb-2">
-            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-              <LayoutDashboard className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <div className="p-2 bg-blue-900/30 rounded-lg">
+              <LayoutDashboard className="w-6 h-6 text-blue-400" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+            <h1 className="text-3xl font-bold text-gray-100">
               Dashboard
             </h1>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 ml-14">
+          <p className="text-sm text-gray-400 ml-14">
             Welcome back! Here's what's happening with your business today.
           </p>
         </div>
@@ -50,7 +50,7 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <StatCard
                 title="Customer & Expenses"
-                primaryIcon={<Package className="text-blue-600 w-6 h-6" />}
+                primaryIcon={<Package className="text-blue-400 w-6 h-6" />}
                 dateRange="22 - 29 October 2023"
                 details={[
                   {
@@ -69,7 +69,7 @@ const Dashboard = () => {
               />
               <StatCard
                 title="Dues & Pending Orders"
-                primaryIcon={<CheckCircle className="text-blue-600 w-6 h-6" />}
+                primaryIcon={<CheckCircle className="text-blue-400 w-6 h-6" />}
                 dateRange="22 - 29 October 2023"
                 details={[
                   {
@@ -88,7 +88,7 @@ const Dashboard = () => {
               />
               <StatCard
                 title="Sales & Discount"
-                primaryIcon={<Tag className="text-blue-600 w-6 h-6" />}
+                primaryIcon={<Tag className="text-blue-400 w-6 h-6" />}
                 dateRange="22 - 29 October 2023"
                 details={[
                   {

@@ -11,19 +11,16 @@ const columns: GridColDef[] = [
     field: "userId", 
     headerName: "ID", 
     width: 90,
-    headerClassName: "font-semibold",
   },
   { 
     field: "name", 
     headerName: "Name", 
     width: 200,
-    headerClassName: "font-semibold",
   },
   { 
     field: "email", 
     headerName: "Email", 
     width: 200,
-    headerClassName: "font-semibold",
   },
 ];
 
@@ -165,62 +162,85 @@ const Users = () => {
                 },
               }}
               sx={{
-                border: 0,
-                '& .MuiDataGrid-main': {
-                  backgroundColor: 'transparent',
-                },
-                '& .MuiDataGrid-cell': {
-                  borderBottom: '1px solid',
-                  borderColor: 'var(--tw-border-opacity, 1) rgb(229 231 235 / var(--tw-border-opacity))',
-                  color: 'rgb(17 24 39)',
-                  fontSize: '0.875rem',
-                },
-                '& .MuiDataGrid-columnHeaders': {
-                  backgroundColor: 'rgb(249 250 251)',
-                  borderBottom: '1px solid rgb(229 231 235)',
-                  color: 'rgb(55 65 81)',
-                  fontSize: '0.875rem',
-                  fontWeight: 600,
-                },
-                '& .MuiDataGrid-row:hover': {
-                  backgroundColor: 'rgb(249 250 251)',
-                },
-                '& .MuiCheckbox-root': {
-                  color: 'rgb(156 163 175)',
-                },
-                '& .MuiCheckbox-root.Mui-checked': {
-                  color: 'rgb(59 130 246)',
-                },
-                '& .MuiDataGrid-footerContainer': {
-                  borderTop: '1px solid rgb(229 231 235)',
-                  backgroundColor: 'rgb(249 250 251)',
-                },
-                // Dark mode styles
-                '@media (prefers-color-scheme: dark)': {
-                  '& .MuiDataGrid-cell': {
-                    borderColor: 'rgb(55 65 81)',
-                    color: 'rgb(243 244 246)',
-                  },
-                  '& .MuiDataGrid-columnHeaders': {
-                    backgroundColor: 'rgb(31 41 55)',
-                    borderBottom: '1px solid rgb(55 65 81)',
-                    color: 'rgb(209 213 219)',
-                  },
-                  '& .MuiDataGrid-row:hover': {
-                    backgroundColor: 'rgb(31 41 55)',
-                  },
-                  '& .MuiDataGrid-footerContainer': {
-                    borderTop: '1px solid rgb(55 65 81)',
-                    backgroundColor: 'rgb(31 41 55)',
-                  },
-                  '& .MuiTablePagination-root': {
-                    color: 'rgb(209 213 219)',
-                  },
-                  '& .MuiIconButton-root': {
-                    color: 'rgb(209 213 219)',
-                  },
-                },
-              }}
+  border: 0,
+  '& .MuiDataGrid-main': {
+    backgroundColor: 'transparent',
+  },
+  '& .MuiDataGrid-cell': {
+    borderBottom: '1px solid rgb(55 65 81)',
+    color: 'rgb(243 244 246)',
+    padding: '16px',
+    fontSize: '0.875rem',
+  },
+  '& .MuiDataGrid-columnHeaders': {
+    backgroundColor: 'rgb(17 24 39) !important',
+    borderBottom: '2px solid rgb(59 130 246)',
+    minHeight: '56px !important',
+    maxHeight: '56px !important',
+  },
+  '& .MuiDataGrid-columnHeader': {
+    backgroundColor: 'rgb(17 24 39) !important',
+    padding: '16px',
+    '&:focus': {
+      outline: 'none',
+    },
+    '&:focus-within': {
+      outline: 'none',
+    },
+  },
+  '& .MuiDataGrid-columnHeaderTitle': {
+    color: 'rgb(255 255 255) !important',
+    fontWeight: '700 !important',
+    fontSize: '0.875rem',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+  },
+  // THIS IS THE KEY FIX - fills the empty space
+  '& .MuiDataGrid-filler': {
+    backgroundColor: 'rgb(17 24 39) !important',
+  },
+  '& .MuiDataGrid-scrollbarFiller': {
+    backgroundColor: 'rgb(17 24 39) !important',
+  },
+  '& .MuiDataGrid-columnHeadersInner': {
+    backgroundColor: 'rgb(17 24 39) !important',
+  },
+  '& .MuiDataGrid-row': {
+    backgroundColor: 'rgb(31 41 55)',
+    '&:hover': {
+      backgroundColor: 'rgb(55 65 81) !important',
+    },
+    '&.Mui-selected': {
+      backgroundColor: 'rgb(55 65 81) !important',
+      '&:hover': {
+        backgroundColor: 'rgb(75 85 99) !important',
+      },
+    },
+  },
+  '& .MuiCheckbox-root': {
+    color: 'rgb(156 163 175)',
+    '&.Mui-checked': {
+      color: 'rgb(59 130 246)',
+    },
+  },
+  '& .MuiDataGrid-footerContainer': {
+    borderTop: '1px solid rgb(55 65 81)',
+    backgroundColor: 'rgb(31 41 55)',
+  },
+  '& .MuiTablePagination-root': {
+    color: 'rgb(209 213 219)',
+  },
+  '& .MuiIconButton-root': {
+    color: 'rgb(209 213 219) !important',
+  },
+  '& .MuiSvgIcon-root': {
+    color: 'rgb(209 213 219) !important',
+  },
+  '& .MuiDataGrid-columnSeparator': {
+    color: 'rgb(75 85 99)',
+  },
+}}
+
               className="dark:bg-gray-800 dark:text-gray-100"
             />
           </div>
